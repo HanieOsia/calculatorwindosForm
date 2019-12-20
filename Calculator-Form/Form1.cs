@@ -10,19 +10,24 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using SystemCash;
+using System.Numerics;
+
 
 namespace Calculator_Form
 {
     
     public partial class Form1 : Form
     {
+        Bigdouble bigdouble = new Bigdouble();
+        BigInteger a = new BigInteger();
         public int Count = 0;
-        FileSystem cash = new FileSystem("MEMBERCASH.TSHPANDA", "TheDirectory");
+        FileSystem cash = new FileSystem("File", "TheDirectory");
         public string FirstNumber="";
         public string SecondNumber="";
         public string Amalgar;
-        public int Result;
+        public Double Resultbig;
         public bool IsAdadAvalPor = false;
+        
 
         List<ClassStructure> listeCS = new List<ClassStructure>();
         
@@ -229,33 +234,34 @@ namespace Calculator_Form
 
         private void Btn_Mosavi_Click(object sender, EventArgs e)
         {
-            int FirstNumberint = Convert.ToInt32(FirstNumber);
-            int SecondNumberint = Convert.ToInt32(SecondNumber);
+
+            Double FirstNumberint = Double.Parse(FirstNumber);
+            Double SecondNumberint = Double.Parse(SecondNumber);
             switch (Amalgar)
             {
                 case "+":
-                    Result = FirstNumberint + SecondNumberint;
+                    Resultbig = FirstNumberint + SecondNumberint;
                     break;
                 case "-":
-                    Result = FirstNumberint - SecondNumberint;
+                    Resultbig = FirstNumberint - SecondNumberint;
                     break;
                 case "*":
-                    Result = FirstNumberint * SecondNumberint;
+                    Resultbig = FirstNumberint * SecondNumberint;
                     break;
                 case "/":
-                    Result = FirstNumberint / SecondNumberint;
+                    Resultbig = FirstNumberint / SecondNumberint;
                     break;
             }
             ClassStructure cs = new ClassStructure();
             cs.FirstNumber = FirstNumber;
             cs.SecondNumber = SecondNumber;
-            cs.Result = Result;
+            cs.Resultbig = Resultbig;
             cs.IsAdadAvalPor = IsAdadAvalPor;
             cs.Amalgar = Amalgar;
             listeCS.Add(cs);
 
 
-            label1.Text = Result.ToString();
+            label1.Text = Resultbig.ToString();
             
 
             
@@ -283,9 +289,9 @@ namespace Calculator_Form
             FirstNumber = "";
             SecondNumber = "";
             Amalgar = "";
-            Result = 0;
+            Resultbig = 0;
             IsAdadAvalPor = false;
-            label1.Text = Result.ToString();
+            label1.Text = Resultbig.ToString();
         }
        
 
@@ -323,15 +329,15 @@ namespace Calculator_Form
 
         private void Btn_up_Click(object sender, EventArgs e)
         {
-            if (Count<listeCS.Count)
+            if (Count < listeCS.Count)
             {
-            label1.Text = listeCS[Count].FirstNumber.ToString() + listeCS[Count].Amalgar + listeCS[Count].SecondNumber.ToString() +"="+ listeCS[Count].Result.ToString();
+            label1.Text = listeCS[Count].FirstNumber.ToString() + listeCS[Count].Amalgar + listeCS[Count].SecondNumber.ToString() +"="+ listeCS[Count].Resultbig.ToString();
                 Count++;
             }
             else
             {
-                if(Count>0)
-                Count = listeCS.Count - 1;
+                if(Count > 0)
+                    Count = listeCS.Count - 1;
             }
         }
 
@@ -339,10 +345,10 @@ namespace Calculator_Form
         {
             if (Count > -1)
             {
-                label1.Text = listeCS[Count].FirstNumber.ToString() + listeCS[Count].Amalgar + listeCS[Count].SecondNumber.ToString() + "=" + listeCS[Count].Result.ToString();
+                label1.Text = listeCS[Count].FirstNumber.ToString() + listeCS[Count].Amalgar + listeCS[Count].SecondNumber.ToString() + "=" + listeCS[Count].Resultbig.ToString();
                 Count--;
             }
-             if(Count==-1)
+             if(Count == -1)
             {
                 Count = 0;
             }
